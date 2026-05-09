@@ -23,14 +23,17 @@ endif
 
 all: $(PDF_PATH) $(EPUB_PATH)
 
-$(PDF_PATH): $(ASCIIDOC_FILES) $(FIGURES) Makefile metadata.yaml | output
+$(PDF_PATH): $(ASCIIDOC_FILES) $(FIGURES) Makefile metadata.yaml themes/letterpress-theme.yml | output
 	asciidoctor-pdf book.adoc $(ASCIIDOC_FLAGS) \
+		-a pdf-theme=letterpress \
+		-a pdf-themesdir=themes \
 		-o $@ \
 		-r asciidoctor-diagram \
 		-r asciidoctor-mathematical
 
-$(EPUB_PATH): $(ASCIIDOC_FILES) $(FIGURES) Makefile metadata.yaml | output
+$(EPUB_PATH): $(ASCIIDOC_FILES) $(FIGURES) Makefile metadata.yaml epub-styles/epub3.scss | output
 	asciidoctor-epub3 book.adoc $(ASCIIDOC_FLAGS) \
+		-a epub3-stylesdir=epub-styles \
 		-o $@ \
 		-r asciidoctor-diagram \
 		-r asciidoctor-mathematical
